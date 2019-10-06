@@ -84,6 +84,17 @@ var messages = [
         cid: 'image'
       }
     ]
+  },
+
+  // Another email with custom group header
+  {
+    from: 'FatMancho <fat@mancho.com>',
+    to: 'Jason Patric <jason.patric@times.com>',
+    subject: 'Hells Kitchen',
+    headers: {
+      'X-maildev-group': 'group1'
+    },
+    html: 'You want a Rolls-Royce, you don\'t come here, no no. You go to England, or wherever the .... they make it.'
   }
 
 ]
