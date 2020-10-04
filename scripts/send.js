@@ -48,7 +48,9 @@ var messages = [
     to: 'Johnny Utah <johnny.utah@fbi.gov>',
     subject: 'The ultimate price',
     text: 'If you want the ultimate, you\'ve got to be willing to pay the ultimate price. \nIt\'s not tragic to die doing what you love.',
-    html: '<!DOCTYPE html><html><head></head><body style="background:#eeefont-family:sans-serifpadding:2em 2em">' +
+    html: '<!DOCTYPE html><html><head>' +
+          '<link rel="Shortcut Icon" type="image/x-icon" href="http://favicons.fr/icons_/105b697f95b9749509401e5b6eea24c0_preview_favicon-16.png" />' +
+          '</head><body style="background:#eeefont-family:sans-serifpadding:2em 2em">' +
           '<h1>Point Break</h1>' +
           '<img src="http://farm8.staticflickr.com/7337/11784709785_bbed9bae7d_m.jpg">' +
           '<p>If you want the ultimate, you\'ve got to be willing to pay the ultimate price. <br>It\'s not tragic to die doing what you love.</p>' +

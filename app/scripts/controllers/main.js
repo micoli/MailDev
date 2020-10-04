@@ -5,8 +5,8 @@
  */
 
 app.controller('MainCtrl', [
-  '$scope', '$rootScope', '$http', 'Email', '$route', '$location',
-  function ($scope, $rootScope, $http, Email, $route, $location) {
+  '$scope', '$rootScope', '$http', 'Email', 'FavIcon', '$route', '$location',
+  function ($scope, $rootScope, $http, Email, FavIcon, $route, $location) {
     $scope.items = []
     $scope.configOpen = false
     $scope.currentItemId = null
@@ -22,9 +22,11 @@ app.controller('MainCtrl', [
     // Load all emails
     var loadData = function () {
       $scope.items = Email.query()
-      $scope.items.$promise.then(function () {
-        countUnread()
-      })
+      $scope.items.$promise
+        .then(FavIcon.extract)
+        .then(function () {
+          countUnread()
+        })
     }
 
     $rootScope.$on('Refresh', function (e, d) {

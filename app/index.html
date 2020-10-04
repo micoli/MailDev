@@ -36,6 +36,15 @@
                     <ul class="email-list">
                         <li ng-repeat="item in items | orderBy:'time':!reverse | filter: search " class="ng-cloak">
 
+                          <div class="email-favicon" ng-switch on="item.favicon.type">
+                            <div ng-switch-when="image">
+                              <img ng-src="{{item.favicon.src}}" />
+                            </div>
+                            <div ng-switch-when="badge" class="circle" ng-style="{'background-color':item.favicon.color}">
+                              {{item.favicon.text}}
+                            </div>
+                          </div>
+
                             <a href="#/email/{{item.id}}" class="email-item email-{{item.id}}" ng-class="{current: item.id === currentItemId}" ng-click="markRead(item)">
                                 <span class="title">
                                     {{item.subject}}
@@ -102,6 +111,7 @@
         <script src="components/angular-sanitize/angular-sanitize.min.js"></script>
         <script src="components/angular-cookies/angular-cookies.min.js"></script>
         <script src="components/socket.io/socket.io.min.js"></script>
+        <script src="components/color-scheme.js"></script>
 
         <script src="scripts/app.js"></script>
         <script src="scripts/services.js"></script>
