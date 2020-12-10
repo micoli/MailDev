@@ -8,6 +8,11 @@ app.controller('MainCtrl', [
   '$scope', '$rootScope', '$http', 'Email', '$route', '$location', 'Favicon',
   function ($scope, $rootScope, $http, Email, $route, $location, Favicon) {
     $scope.items = []
+    $scope.filters = {
+      search: '',
+      group: '*'
+    }
+    $scope.groups = []
     $scope.configOpen = false
     $scope.currentItemId = null
     $scope.autoShow = false
@@ -25,11 +30,37 @@ app.controller('MainCtrl', [
       Favicon.setUnreadCount($scope.unreadItems)
     }
 
+    var getGroups = function () {
+      const addToGroup = function (groups, groupKey, groupName, numberToAdd) {
+        if (!groups.hasOwnProperty(groupKey)) {
+          groups[groupKey] = {
+            label: groupName,
+            count: 0
+          }
+        }
+        groups[groupKey].count += numberToAdd
+        return groups
+      }
+      $scope.groups = $scope.items.reduce((groups, email) => {
+        if (email.headers.hasOwnProperty('x-maildev-group')) {
+          const groupName = email.headers['x-maildev-group']
+          addToGroup(groups, groupName, groupName, 1)
+          return groups
+        }
+        addToGroup(groups, '-', 'Without group', 1)
+        return groups
+      }, addToGroup({}, '*', 'All', $scope.items.length))
+      if ($scope.filters.group === null) {
+        $scope.filters.group = '*'
+      }
+    }
+
     // Load all emails
     var loadData = function () {
       $scope.items = Email.query()
       $scope.items.$promise.then(function () {
         countUnread()
+        getGroups()
       })
     }
 
@@ -135,3 +166,31 @@ app.controller('NavCtrl', [
     }
   }
 ])
+
+app.filter('itemFilter', function () {
+  const filterText = function (item, searchedText) {
+    if (searchedText === '') {
+      return true
+    }
+
+    return JSON.stringify(item).indexOf(searchedText) > 0
+  }
+
+  const filterGroup = function (item, searchedGroup) {
+    if (searchedGroup === '' || searchedGroup === '*') {
+      return true
+    }
+
+    if (searchedGroup === '-') {
+      return (!item.headers.hasOwnProperty('x-maildev-group'))
+    }
+
+    return item.headers['x-maildev-group'] === searchedGroup
+  }
+
+  return function (items, filters) {
+    return items.filter((item) => {
+      return filterText(item, filters.search) && filterGroup(item, filters.group)
+    })
+  }
+})

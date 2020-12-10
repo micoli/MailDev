@@ -100,7 +100,7 @@ a:focus {
 
 .sidebar-header {
     position: absolute; top: 0; left: 0; width:30%; max-width: 26em;
-    min-height: 2 * $toolbarHeight; // 2 toolbar height = 2.8 * 2 = 5.6
+    min-height: 2.5 * $toolbarHeight; // 2 toolbar height = 2.8 * 2.5 = 7
     background-color: $brand;
 }
 
@@ -109,8 +109,8 @@ a:focus {
 }
 
 .sidebar-scrollable-content {
-    height: calc(100% - #{2 * $toolbarHeight});
-    margin-top: 2 * $toolbarHeight;
+    height: calc(100% - #{2.5 * $toolbarHeight});
+    margin-top: 2.5 * $toolbarHeight;
     overflow-y: scroll; overflow-x: hidden;
 }
 
@@ -328,7 +328,18 @@ code {
     padding: 0.3em 0.8em 0;
 }
 
+.group-container {
+    position: relative;
+    padding: 0.3em 0.8em 0;
+}
+
 .search-icon {
+    position: absolute;
+    top: 0.7em; left: 1.3em;
+    color: $whiteSemiTrans;
+}
+
+.group-icon {
     position: absolute;
     top: 0.7em; left: 1.3em;
     color: $whiteSemiTrans;
@@ -356,6 +367,26 @@ code {
 }
 
 
+.group-select {
+    display: block;
+    margin: 0;
+    padding: 0.3em 0.2em;
+    width: 98%;
+
+    text-indent: 1.9em;
+    background-color: $brand;
+    border: 0;
+    color: $white;
+    -webkit-font-smoothing: antialiased;
+
+    &:focus {
+        outline: none;
+        background-color: darken($brand, 10);
+        + .search-icon {
+            color: $white;
+        }
+    }
+}
 
 ::-webkit-input-placeholder {
     -webkit-font-smoothing: antialiased;
